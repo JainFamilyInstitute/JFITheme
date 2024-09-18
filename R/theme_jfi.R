@@ -310,15 +310,6 @@ set_jfi_defaults <- function(base_size = 8,
                              base_rect_size = base_size / 170,
                              scale = "continuous") {
 
-  # Set default theme to JFI custom theme
-  ggplot2::theme_set(
-    theme_jfi(
-      base_size = base_size,
-      base_family = base_family,
-      base_line_size = base_line_size,
-      base_rect_size = base_rect_size
-    )
-  )
 
   # Set default font for text and label
   ggplot2::update_geom_defaults("text", list(family = base_family, size = 1 / 0.352777778))
