@@ -1,0 +1,131 @@
+---
+title: "JFITheme"
+output: github_document
+---
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+JFITheme is an R package that provides standardized ggplot2 themes, color scales, and typography for the Jain Family Institute (JFI).
+
+## Installation
+
+To install the `JFITheme` package, use the following commands:
+
+```r
+# Install the development version from GitHub
+devtools::install_github("JainFamilyInstitute/JFITheme")
+```
+## Usage
+When the package is loaded, custom fonts are automatically registered, so you do not need to manually call `custom_font()`.
+
+```{r}
+library(ggplot2)
+library(JFITheme)
+```
+
+Create a Basic Plot with the JFI Theme
+```{r}
+# Create a basic plot
+jfi_plot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  scale_y_continuous(limits = c(0, 40), expand = c(0, 0)) +
+  labs(
+    title = "Weight vs MPG",
+    subtitle = "Scatter plot of car weight vs. fuel efficiency"
+  )
+```
+
+
+Use custom JFI Color Scales and add caption using the `scale_color_jfi()` and `caption_w_logo()` functions
+```{r}
+# Apply JFI color scales
+jfi_plot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +
+  geom_col(width = .75) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
+  scale_fill_jfi(type = "discrete", palette = "jfi") +
+  labs(
+    title = "Fuel Efficiency by Cylinder Count",
+    subtitle = "A bar plot using JFI discrete color scales",
+    x = "Cylinder", y = "Miles per Gallon",
+    fill = "Cylinder", 
+    caption = caption_w_logo(source = "Data Source",
+                             note = "Additional Notes")
+  ) + 
+  theme(legend.position = "none") # remove legend
+```
+
+Example for Sequential Color Scale
+```{r}
+# Apply JFI continuous color scale
+jfi_plot(mtcars, aes(x = wt, y = mpg, color = hp)) +
+  geom_point() +
+  scale_y_continuous(limits = c(0, 35), expand = c(0, 0)) +
+  scale_color_jfi(type = "sequential", palette = "jfi") +
+  labs(
+    title = "Weight vs MPG by HP with Continuous Color Scale",
+    subtitle = "Using JFI sequential color scale",
+    color = "Horsepower",
+    caption = caption_w_logo(source = "Data Source")
+  ) +
+  guides(color = guide_colorbar(barwidth = 10, barheight = .7))
+```
+
+
+Example for Divergent Color Scale
+```{r}
+# Load the airquality dataset and create a temperature deviation variable
+# Load the airquality dataset
+data(airquality)
+
+airquality$TempDev <- airquality$Temp - mean(airquality$Temp, na.rm = TRUE)
+
+# Apply JFI divergent color scale using temperature deviation
+jfi_plot(airquality, aes(x = Wind, y = Temp, color = TempDev)) +
+  geom_point(size = 2.5) +
+  scale_color_jfi(type = "divergent", palette = "jfi", midpoint = 0) +
+  labs(
+    title = "Wind vs Temp with Divergent Color Scale",
+    subtitle = "Divergence based on temperature deviation from the mean",
+    color = "Temp Deviation",
+    caption = caption_w_logo(source = "Data Source")
+  ) +
+  guides(color = guide_colorbar(barwidth = 10, barheight = .7, reverse = T))
+```
+
+Example Using the PW Blue Palette
+```{r}
+# Calculate average Ozone levels by Month
+avg_ozone_by_month <- aggregate(Ozone ~ Month, data = airquality, FUN = mean, na.rm = TRUE)
+
+# Create a bar plot showing average Ozone levels by Month using the PW Blue palette
+jfi_plot(avg_ozone_by_month, aes(x = factor(Month), y = Ozone, fill = factor(Month))) +
+  geom_col(width = .75) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
+  scale_fill_jfi(type = "discrete", palette = "pw_blue") +
+  labs(
+    title = "Average Ozone Levels by Month",
+    subtitle = "Using the PW Blue palette",
+    x = "Month",
+    y = "Average Ozone Level",
+    fill = "Month",
+    caption = caption_w_logo(source = "Data Source")
+  ) +
+  theme(legend.position = "none")
+```
+
+Example Using the PW Red Palette
+```{r}
+# Apply PW red divergent color scale using temperature deviation
+jfi_plot(airquality, aes(x = Wind, y = Temp, color = TempDev)) +
+  geom_point(size = 2.5) +
+  scale_color_jfi(type = "divergent", palette = "pw_red", midpoint = 0) +
+  labs(
+    title = "Wind vs Temp with Divergent Color Scale",
+    subtitle = "Divergence based on temperature deviation from the mean. Using the PW Red palette",
+    color = "Temp Deviation",
+    caption = caption_w_logo(source = "Data Source")
+  ) +
+  guides(color = guide_colorbar(barwidth = 10, barheight = .7))
+```
+

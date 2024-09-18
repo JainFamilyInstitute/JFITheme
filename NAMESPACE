@@ -1,0 +1,8 @@
+export(theme_jfi)
+export(scale_color_jfi)
+export(scale_fill_jfi)
+export(caption_w_logo)
+export(custom_font)
+export(set_jfi_defaults)
+export(jfi_plot)
+import(ggrepel)
