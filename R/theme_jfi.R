@@ -291,6 +291,78 @@ theme_jfi <- function(
     )
 }
 
+#' Custom JFI Map Theme
+#'
+#' A simplified ggplot2 theme for maps, removing gridlines, otherwise keeping everything the same as `theme_jfi()`.
+#'
+#' @param legend_right Logical, should the legend be on the right?
+#' @param base_size Base font size.
+#' @param base_family Base font family.
+#' @param base_line_size Base line size.
+#' @param base_rect_size Base rectangle size.
+#' @return A ggplot2 theme object.
+#' @export
+#' @examples
+#' library(ggplot2)
+#' # Load map data for the US
+#' us_map <- ggplot2::map_data("state")
+#'
+#' # Plot the US map
+#' ggplot(us_map, aes(long, lat, group = group)) +
+#'   geom_polygon(fill = "#D6DCEE", color = "white") +
+#'   coord_fixed(1.3) +  # Fix aspect ratio
+#'   theme_jfi_map()
+#'
+theme_jfi_map <- function(
+    legend_right = FALSE,
+    base_size = 8,
+    base_family = "melior",
+    base_line_size = base_size / 170,
+    base_rect_size = base_size / 170
+) {
+  half_line <- base_size / 2
+  grid_line_color <- "grey70"
+  grid_line_size <- 0.2
+
+  # Legend positioning
+  spec_legend_position <- if (legend_right) "right" else "top"
+  spec_legend_direction <- if (legend_right) "vertical" else "horizontal"
+  legend_box_spacing_spec <- if (legend_right) ggplot2::unit(2 * half_line, "pt") else ggplot2::unit(0, "char")
+
+  ggplot2::theme_minimal(base_size = base_size, base_family = base_family, base_line_size = base_line_size) +
+    ggplot2::theme(
+      # Modified elements specific to maps
+      axis.line = ggplot2::element_blank(),         # Remove axis lines
+      axis.text = ggplot2::element_blank(),         # Remove axis text
+      axis.ticks = ggplot2::element_blank(),        # Remove axis ticks
+      panel.grid = ggplot2::element_blank(),        # Remove gridlines
+      panel.border = ggplot2::element_blank(),      # Remove panel border
+      plot.background = ggplot2::element_rect(fill = "#fffdfc", color = NA),  # Ensuring white background
+      panel.background = ggplot2::element_rect(fill = "#fffdfc", color = NA), # Ensuring white background
+
+      # Original elements retained from theme_jfi
+      text = ggplot2::element_text(color = "black", size = base_size, family = base_family),
+      plot.title = ggplot2::element_text(size = 14, hjust = 0, margin = ggplot2::margin(b = 6)),
+      plot.subtitle = ggplot2::element_text(hjust = 0, margin = ggplot2::margin(b = 15)),
+      plot.caption = ggplot2::element_text(size = c(20, 7), family = c("roboto-mono", base_family),
+                                           color = c("#B0B0B0", "black"), hjust = c(0, 0), vjust = c(0, 0), margin = ggplot2::margin(t = 4)),
+      #axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 6, b = 0), hjust = .5, color = "black", size = base_size, family = base_family),
+      #axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 6), hjust = .5, angle = 90, color = "black", size = base_size, family = base_family),
+      #axis.ticks.length = ggplot2::unit(0.3, "char"),
+      legend.position = spec_legend_position,
+      legend.direction = spec_legend_direction,
+      legend.title = ggplot2::element_text(hjust = .98),
+      legend.title.position = "top",
+      legend.spacing.x = ggplot2::unit(1, "char"),
+      legend.text = ggplot2::element_text(hjust = 0),
+      legend.margin = ggplot2::margin(b = 6),
+      legend.box.spacing = legend_box_spacing_spec,
+      legend.background = ggplot2::element_blank(),
+      legend.key.size = ggplot2::unit(0.4, "cm"),
+      plot.margin = ggplot2::margin(15, 15, 15, 15),
+      complete = TRUE
+    )
+}
 
 #' Set JFI ggplot2 Defaults
 #'
