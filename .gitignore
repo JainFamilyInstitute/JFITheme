@@ -2,3 +2,4 @@
 .DS_Store
 man/
 README_files/
+*.Rproj
