@@ -1,2 +1,6 @@
 ^JFITheme\.Rproj$
 ^\.Rproj\.user$
+^README\.Rmd$
+^README_files$
+^LICENSE\.md$
+^man$

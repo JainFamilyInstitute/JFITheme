@@ -1,13 +1,24 @@
 Package: JFITheme
 Type: Package
 Title: Custom ggplot2 Themes and Scales for JFI
-Version: 0.1.0
+Version: 0.1.1
 Author: Your Name
 Maintainer: Your Name <your.email@example.com>
 Description: Custom ggplot2 themes and scales based on the JFI style guide.
 Depends: R (>= 3.5.0)
-Imports: ggplot2, showtext, ggtext
-License: MIT
+Imports: 
+    ggplot2,
+    showtext,
+    ggtext,
+    dplyr,
+    tidyr,
+    lubridate,
+    scales,
+    rlang,
+    grid,
+    ragg,
+    sysfonts
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
